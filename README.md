@@ -67,8 +67,9 @@ The workflow evaluates Land Use/Land Cover (LULC) transitions between 2020 and 2
 | **Total** | | **1197.07** | **1197.04** | **1197.06** | — |
 
 ### Table 2: Multi-Temporal Zonal LST Dynamics (°C)
+
 | Class ID | Class Name | Mean 2020 (°C) | Mean 2024 (°C) | Mean 2028 (°C) | ΔLST 20–24 | ΔLST 24–28 |
-| :---: | :--- | :---: | :---: | :---: | :---: |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: |
 | 1 | Water | 28.46 | 27.79 | 27.63 | -0.67 | -0.16 |
 | 2 | Trees | 30.27 | 29.38 | 29.25 | -0.89 | -0.13 |
 | 4 | Flooded Veg | 27.21 | 28.34 | 30.90 | +1.13 | +2.56 |
@@ -79,8 +80,9 @@ The workflow evaluates Land Use/Land Cover (LULC) transitions between 2020 and 2
 | **Scene** | **Landscape Mean** | **35.85** | **33.98** | **33.97** | **-1.87** | **-0.01** |
 
 ### Table 3: Multi-Temporal UTFVI Ecological Dynamics
+
 | Value | Category | Grade | 2020 (km²) | 2024 (km²) | 2028 (km²) | Net Change (Δkm²) |
-| :---: | :--- | :--- | :---: | :---: | :---: |
+| :---: | :--- | :--- | :---: | :---: | :---: | :---: |
 | 1 | None (<0.000) | Excellent | 568.72 | 590.61 | 493.83 | **-74.89** |
 | 2 | Weak (0.000–0.005) | Good | 27.48 | 31.30 | 53.03 | **+25.55** |
 | 3 | Moderate (0.005–0.010) | Normal | 26.76 | 30.41 | 85.58 | **+58.82** |
