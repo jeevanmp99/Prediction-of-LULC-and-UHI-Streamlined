@@ -1,0 +1,7 @@
+Class_Value,Category,Grade,Area_2020_km2,Area_2024_km2,Area_2028_km2
+1,None (<0.000),Excellent,568.72,590.61,493.83
+2,Weak (0-0.005),Good,27.48,31.3,53.03
+3,Moderate (0.005-0.010),Normal,26.76,30.41,85.58
+4,Strong (0.010-0.015),Bad,26.21,29.11,84.82
+5,Stronger (0.015-0.020),Worse,25.9,27.77,62.03
+6,Strongest (>0.020),Worst,521.98,487.85,417.77
