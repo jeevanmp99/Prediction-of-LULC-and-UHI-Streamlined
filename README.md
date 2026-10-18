@@ -81,8 +81,8 @@ Where:
 - $\varepsilon, \Delta\varepsilon$ are mean land surface emissivity and spectral emissivity difference, calculated via the NDVI threshold method ($P_v$).
 - $W$ is atmospheric column water vapor content.
 
-#### B. Machine Learning LST Prediction (2028 Simulated)
-The 2028 thermal regime was predicted using an optimized **Random Forest Regression** ensemble ($n_{\text{estimators}} = 100$, $\text{max\_depth} = 18$, $\text{min\_samples\_split} = 10$, $\text{min\_samples\_leaf} = 4$):
+### B. Machine Learning LST Prediction (2028 Simulated)
+The 2028 thermal regime was predicted using an optimized **Random Forest Regression** ensemble (`n_estimators = 100`, `max_depth = 18`, `min_samples_split = 10`, `min_samples_leaf = 4`):
 - **Predictor Variables ($X$):** Simulated 2028 LULC classes, dynamically adjusted 2028 NDVI (reflecting bare soil conversion penalties), and 30 m DEM elevation.
 - **Model Goodness-of-Fit:** Validated against 2024 hold-out test pixels yielding $R^2 = 0.774$, $\text{RMSE} = 1.48^\circ\text{C}$, and $\text{MAE} = 1.12^\circ\text{C}$.
 
@@ -92,14 +92,20 @@ The 2028 thermal regime was predicted using an optimized **Random Forest Regress
 
 #### A. Surface Urban Heat Island (SUHI) Intensity
 To account for regional microclimatic variation, two ecological reference benchmarks are evaluated:
-1. **Tree Canopy Reference (Strict Ecological Baseline):**
-   $$\text{SUHI}_{\text{Canopy}} = \overline{T}_{\text{Built Area}} - \overline{T}_{\text{Tree Canopy}}$$
-2. **Composite Rural Landscape Reference (Regional Baseline):**
-   $$\text{SUHI}_{\text{Rural}} = \overline{T}_{\text{Built Area}} - \overline{T}_{\text{Composite Rural}}$$
-   Where $\overline{T}_{\text{Composite Rural}}$ is the area-weighted average temperature of non-urban classes (Trees, Crops, and Rangeland).
+
+* **Tree Canopy Reference (Strict Ecological Baseline):**
+
+$$\text{SUHI}_{\text{Canopy}} = \overline{T}_{\text{Built\ Area}} - \overline{T}_{\text{Tree\ Canopy}}$$
+
+* **Composite Rural Landscape Reference (Regional Baseline):**
+
+$$\text{SUHI}_{\text{Rural}} = \overline{T}_{\text{Built\ Area}} - \overline{T}_{\text{Composite\ Rural}}$$
+
+Where $\overline{T}_{\text{Composite\ Rural}}$ is the area-weighted average temperature of non-urban classes (Trees, Crops, and Rangeland).
 
 #### B. Urban Thermal Field Variance Index (UTFVI)
 Microclimatic thermal distress and comfort zones are quantified by the relative temperature deviation from the scene spatial mean:
+
 $$\text{UTFVI} = \frac{T_s - T_{\text{mean}}}{T_s}$$
 
 *Classification Thresholds & Ecological Evaluation:*
