@@ -36,19 +36,79 @@ The workflow evaluates Land Use/Land Cover (LULC) transitions between 2020 and 2
 
 ## Methodological Summary
 
-### 1. Spatial Domain & CRS
-- **Region:** Greater Kovai Region (Coimbatore, TN, India)
-- **Bounding Box / Extent:** Universal Transverse Mercator (UTM) Zone 43N (EPSG: 32643)
-- **Grid Resolution:** 30 m x 30 m (1,316 columns x 1,308 rows; 1 pixel = 0.0009 km²)
+### 1. Spatial Domain & Coordinate Reference System
+- **Study Area:** Greater Kovai Region (Coimbatore Metropolitan Area & Surrounding Buffer, Tamil Nadu, India)
+- **Geographic Extent:** Universal Transverse Mercator (UTM) Zone 43N
+- **Horizontal Datum & Ellipsoid:** WGS 84 / UTM Zone 43N (EPSG: 32643)
+- **Spatial Resolution:** Standardized $30\text{ m} \times 30\text{ m}$ continuous raster grid (1,316 columns $\times$ 1,308 rows; 1 pixel = $0.0009\text{ km}^2$)
+- **Total Landscape Footprint:** $1,197.06\text{ km}^2$ (1,330,064 valid terrestrial pixels)
 
-### 2. Analytical Formulations
-- **Surface Urban Heat Island Intensity (SUHI):**
-  $$SUHI_{Canopy} = \overline{T}_{Built Area} - \overline{T}_{Tree Canopy}$$
-  $$SUHI_{Rural} = \overline{T}_{Built Area} - \overline{T}_{Composite Rural Baseline}$$
+---
 
-- **Urban Thermal Field Variance Index (UTFVI):**
-  $$UTFVI = \frac{T_s - T_{mean}}{T_s}$$
-  *Thresholds:* Class 1 (<0.000, None), Class 2 (0.000-0.005, Weak), Class 3 (0.005-0.010, Moderate), Class 4 (0.010-0.015, Strong), Class 5 (0.015-0.020, Stronger), Class 6 (>0.020, Strongest).
+### 2. LULC Simulation via MOLUSCE (CA-ANN Architecture)
+Future land use projection for 2028 was performed using the **Modules for Land Use Change Evaluation (MOLUSCE)** plugin in QGIS, using an Artificial Neural Network (Multi-Layer Perceptron) coupled with Cellular Automata.
+
+#### A. Spatial Driving Variables (Covariates)
+Transition potential was modeled using four standardized spatial proxies:
+1. **Normalized Difference Vegetation Index (NDVI):** Derived from Sentinel-2 MSI bands $(B8 - B4) / (B8 + B4)$, capturing canopy density and seasonal agricultural fallow states.
+2. **Euclidean Distance to Roads:** Calculated from OpenStreetMap transport networks, representing transport accessibility and ribbon development pressure.
+3. **Euclidean Distance to Water Bodies:** Surface hydrology proximity representing natural drainage buffers and water retention basins.
+4. **Topographic Slope (Degrees):** Extracted from 30 m SRTM/Copernicus DEM, imposing geomorphic constraints on expansion toward the Western Ghats.
+
+#### B. ANN Hyperparameters & Training Configuration
+- **Architecture:** Multi-Layer Perceptron (ANN-MLP)
+- **Sampling Strategy:** Random selection across $15,000$ representative pixels
+- **Neighborhood Rule:** $1\text{ px}$
+- **Learning Rate:** $0.010$
+- **Momentum:** $0.050$
+- **Hidden Layer Structure:** 1 hidden layer with 10 hidden processing nodes
+- **Iterations / Epochs:** 1,000 maximum iterations
+
+#### C. Model Training & Convergence Performance
+- **Minimum Validation Overall Error:** $0.02480$ (Validation Accuracy $\approx 97.52\%$)
+- **Current Validation Kappa ($\kappa$):** $0.76593$ (Substantial Agreement)
+- **Delta Overall Accuracy ($\Delta$):** $-0.00215$ (Demonstrating stable asymptotic convergence without gradient divergence)
+
+---
+
+### 3. Thermal Retrieval & Predictive Modeling Pipeline
+
+#### A. Historical LST Retrieval (2020 & 2024 Observed)
+Land Surface Temperature was extracted from Landsat-8 and Landsat-9 Thermal Infrared Sensor (TIRS) data via the **Split-Window Algorithm (SWA)** utilizing both thermal channels (Band 10: $10.60\text{–}11.19\ \mu\text{m}$; Band 11: $11.50\text{–}12.51\ \mu\text{m}$):
+$$T_s = T_{10} + c_1(T_{10} - T_{11}) + c_2(T_{10} - T_{11})^2 + c_0 + (c_3 + c_4 W)(1 - \varepsilon) + (c_5 + c_6 W)\Delta\varepsilon$$
+Where:
+- $T_{10}, T_{11}$ are at-sensor brightness temperatures from Top-of-Atmosphere (TOA) spectral radiance.
+- $\varepsilon, \Delta\varepsilon$ are mean land surface emissivity and spectral emissivity difference, calculated via the NDVI threshold method ($P_v$).
+- $W$ is atmospheric column water vapor content.
+
+#### B. Machine Learning LST Prediction (2028 Simulated)
+The 2028 thermal regime was predicted using an optimized **Random Forest Regression** ensemble ($n_{\text{estimators}} = 100$, $\text{max\_depth} = 18$, $\text{min\_samples\_split} = 10$, $\text{min\_samples\_leaf} = 4$):
+- **Predictor Variables ($X$):** Simulated 2028 LULC classes, dynamically adjusted 2028 NDVI (reflecting bare soil conversion penalties), and 30 m DEM elevation.
+- **Model Goodness-of-Fit:** Validated against 2024 hold-out test pixels yielding $R^2 = 0.774$, $\text{RMSE} = 1.48^\circ\text{C}$, and $\text{MAE} = 1.12^\circ\text{C}$.
+
+---
+
+### 4. Urban Microclimate Formulations
+
+#### A. Surface Urban Heat Island (SUHI) Intensity
+To account for regional microclimatic variation, two ecological reference benchmarks are evaluated:
+1. **Tree Canopy Reference (Strict Ecological Baseline):**
+   $$\text{SUHI}_{\text{Canopy}} = \overline{T}_{\text{Built Area}} - \overline{T}_{\text{Tree Canopy}}$$
+2. **Composite Rural Landscape Reference (Regional Baseline):**
+   $$\text{SUHI}_{\text{Rural}} = \overline{T}_{\text{Built Area}} - \overline{T}_{\text{Composite Rural}}$$
+   Where $\overline{T}_{\text{Composite Rural}}$ is the area-weighted average temperature of non-urban classes (Trees, Crops, and Rangeland).
+
+#### B. Urban Thermal Field Variance Index (UTFVI)
+Microclimatic thermal distress and comfort zones are quantified by the relative temperature deviation from the scene spatial mean:
+$$\text{UTFVI} = \frac{T_s - T_{\text{mean}}}{T_s}$$
+
+*Classification Thresholds & Ecological Evaluation:*
+- **Class 1 ($< 0.000$):** None (Ecological Grade: Excellent)
+- **Class 2 ($0.000\text{ to }0.005$):** Weak (Ecological Grade: Good)
+- **Class 3 ($0.005\text{ to }0.010$):** Moderate (Ecological Grade: Normal)
+- **Class 4 ($0.010\text{ to }0.015$):** Strong (Ecological Grade: Bad)
+- **Class 5 ($0.015\text{ to }0.020$):** Stronger (Ecological Grade: Worse)
+- **Class 6 ($> 0.020$):** Strongest (Ecological Grade: Worst)
 
 ---
 
