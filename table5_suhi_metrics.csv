@@ -1,4 +1,0 @@
-Year,Type,Built_LST_C,Trees_Ref_LST_C,SUHI_Canopy_Intensity_C,Rural_Composite_LST_C,SUHI_Rural_Intensity_C,Built_Footprint_km2
-2020,Observed,36.26,30.27,5.99,35.7,0.56,458.88
-2024,Observed,34.39,29.38,5.01,33.75,0.64,529.98
-2028,Simulated,34.42,29.25,5.17,33.66,0.76,558.68
