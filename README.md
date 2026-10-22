@@ -171,9 +171,9 @@ $$\text{UTFVI} = \frac{T_s - T_{\text{mean}}}{T_s}$$
 
 ## Cartographic Layouts
 Multi-panel QGIS print layouts are located in `figures/maps/`:
-- `lulc_tripanel_2020_2028.png` (Sentinel-2 & CA-ANN simulation)
-- `lst_tripanel_2020_2028.png` (SWA retrieval & RF regression)
-- `utfvi_tripanel_2020_2028.png` (Ecological comfort classification)
+- `lulc_tripanel_2020_2028.jpeg` (Sentinel-2 & CA-ANN simulation)
+- `lst_tripanel_2020_2028.jpeg` (SWA retrieval & RF regression)
+- `utfvi_tripanel_2020_2028.jpeg` (Ecological comfort classification)
 
 ---
 
