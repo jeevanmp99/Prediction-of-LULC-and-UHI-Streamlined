@@ -37,11 +37,12 @@ The workflow evaluates Land Use/Land Cover (LULC) transitions between 2020 and 2
 ## Methodological Summary
 
 ### 1. Spatial Domain & Coordinate Reference System
-- **Study Area:** Greater Kovai Region (Coimbatore Metropolitan Area & Surrounding Buffer, Tamil Nadu, India)
-- **Geographic Extent:** Universal Transverse Mercator (UTM) Zone 43N
-- **Horizontal Datum & Ellipsoid:** WGS 84 / UTM Zone 43N (EPSG: 32643)
-- **Spatial Resolution:** Standardized $30\text{ m} \times 30\text{ m}$ continuous raster grid (1,316 columns $\times$ 1,308 rows; 1 pixel = $0.0009\text{ km}^2$)
-- **Total Landscape Footprint:** $1,197.06\text{ km}^2$ (1,330,064 valid terrestrial pixels)
+
+* **Study Area:** Greater Kovai Region (Coimbatore Metropolitan Area & Surrounding Buffer, Tamil Nadu, India)
+* **Geographic Extent:** Universal Transverse Mercator (UTM) Zone 43N
+* **Horizontal Datum & Ellipsoid:** WGS 84 / UTM Zone 43N (EPSG: 32643)
+* **Spatial Resolution:** Standardized 30 m × 30 m continuous raster grid (1,316 columns × 1,308 rows; 1 pixel = 0.0009 km²)
+* **Total Landscape Footprint:** 1,197.06 km² (1,330,064 valid terrestrial pixels)
 
 ---
 
@@ -50,14 +51,14 @@ Future land use projection for 2028 was performed using the **Modules for Land U
 
 #### A. Spatial Driving Variables (Covariates)
 Transition potential was modeled using four standardized spatial proxies:
-1. **Normalized Difference Vegetation Index (NDVI):** Derived from Sentinel-2 MSI bands $(B8 - B4) / (B8 + B4)$, capturing canopy density and seasonal agricultural fallow states.
+1. **Normalized Difference Vegetation Index (NDVI):** Derived from Sentinel-2 MSI bands (B8 - B4) / (B8 + B4), capturing canopy density and seasonal agricultural fallow states.
 2. **Euclidean Distance to Roads:** Calculated from OpenStreetMap transport networks, representing transport accessibility and ribbon development pressure.
 3. **Euclidean Distance to Water Bodies:** Surface hydrology proximity representing natural drainage buffers and water retention basins.
 4. **Topographic Slope (Degrees):** Extracted from 30 m SRTM/Copernicus DEM, imposing geomorphic constraints on expansion toward the Western Ghats.
 
 #### B. ANN Hyperparameters & Training Configuration
 - **Architecture:** Multi-Layer Perceptron (ANN-MLP)
-- **Sampling Strategy:** Random selection across $15,000$ representative pixels
+- **Sampling Strategy:** Random selection across 15,000 representative pixels
 - **Neighborhood Rule:** $1\text{ px}$
 - **Learning Rate:** $0.010$
 - **Momentum:** $0.050$
