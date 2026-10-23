@@ -171,11 +171,15 @@ $$\text{UTFVI} = \frac{T_s - T_{\text{mean}}}{T_s}$$
 ---
 
 ## Cartographic Layouts
-Multi-panel QGIS print layouts are located in `figures/maps/`:
-- `lulc_tripanel_2020_2028.jpeg` (Sentinel-2 & CA-ANN simulation)
-- `lst_tripanel_2020_2028.jpeg` (SWA retrieval & RF regression)
-- `utfvi_tripanel_2020_2028.jpeg` (Ecological comfort classification)
 
+### 1. Land Use / Land Cover Dynamics (2020–2028)
+<img src="figures/maps/lulc_tripanel_2020_2028.jpeg" width="100%" alt="LULC Tripanel Map" />
+
+### 2. Land Surface Temperature (LST) Projections
+<img src="figures/maps/lst_tripanel_2020_2028.jpeg" width="100%" alt="LST Tripanel Map" />
+
+### 3. Urban Thermal Field Variance Index (UTFVI)
+<img src="figures/maps/utfvi_tripanel_2020_2028.jpeg" width="100%" alt="UTFVI Tripanel Map" />
 ---
 
 ## Usage
